@@ -1,6 +1,6 @@
-# What is Hot Monad - Hot Contract Analyzer via MCP (Model Context Protocol)
+# What is Hot Monad - Hot Contract Analyzer via MCP
 
-What is Hot Monad is a lightweight MCP server that enables AI models (such as Claude) to **analyze the hottest contracts** on the **Monad testnet**.
+What is Hot Monad is a lightweight MCP server that enables AI models (such as Claude) to **analyze the hottest contracts & activities** on the **Monad testnet**.
 
 It reads on-chain transaction logs from recent blocks and identifies the most active contracts, displaying both their addresses and associated Dapp names — all in a fully automated, natural language format.
 
@@ -75,6 +75,9 @@ The MCP server provides two main tools:
    - Looks up Dapp names for specific contract addresses
    - Returns "Unknown" for addresses not in the mapping
 
+**Example Hot Contract Analysis:**   
+  ![Image path](/static/summary.png)
+
 ✅ **No private key required**  
 ✅ **Only public blockchain data analyzed**  
 ✅ **Safe, scalable, AI-integrated**
@@ -118,6 +121,7 @@ Please analyze the hot contracts on Monad testnet for the last 20 blocks. For ea
 ```
 
 5. Save and **restart** Claude Desktop.
+  ![Image path](/static/demo.gif)
 
 ---
 
@@ -134,36 +138,6 @@ Claude will use the MCP server to fetch the blockchain data and generate a list 
 
 ---
 
-## 🖼️ Screenshots and Demos
-
-> ( 📌 Insert demo GIFs and screenshots here )
-
-- **[Screenshot Placeholder]** - Claude Desktop MCP Settings:  
-  _Image path: `/static/claude_mcp_settings.png`_
-
-- **[GIF Placeholder]** - Running Monlock Holmes in Claude Chat:  
-  _Image path: `/static/monlock_demo.gif`_
-
-- **[Screenshot Placeholder]** - Example Hot Contract Analysis:  
-  _Image path: `/static/hot_contracts_summary.png`_
-
----
-
-## 📦 Folder Structure
-
-```bash
-/src
-  index.ts         # Main MCP server entry
-  dapp_names.json  # Mapping known DApp contracts to names
-/dist
-  index.js         # Compiled JavaScript
-  dapp_names.json  # Copied mapping file
-/static
-  (your demo images and GIFs)
-```
-
----
-
 ## 📚 Further Resources
 
 - [Monad Official Documentation](https://docs.monad.xyz/)
@@ -176,9 +150,6 @@ Claude will use the MCP server to fetch the blockchain data and generate a list 
 ## 🤔 Notes
 
 - The server dynamically scans a configurable range of recent blocks
-- Efficient batching prevents RPC overload
-- Compatible with Monad testnet RPC
-- Pure `node` + `MCP` server — no HTTP server required
 - Dapp names are maintained in a local JSON file for easy updates
 
 ---
@@ -188,6 +159,5 @@ Claude will use the MCP server to fetch the blockchain data and generate a list 
 - Dynamic detection of emerging DApps
 - Historical analysis over larger block ranges
 - Supporting multiple chain RPCs (EVM-compatible)
-- More advanced LLM prompts for behavior categorization and risk analysis
 - Automated Dapp name discovery and verification
 
