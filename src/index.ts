@@ -15,6 +15,19 @@ const publicClient = createPublicClient({
 const dappNamesPath = path.join(__dirname, 'dapp_names.json');
 const dappNames = JSON.parse(fs.readFileSync(dappNamesPath, 'utf-8'));
 
+// Function to check if an address is a contract
+async function isContractAddress(address: string): Promise<boolean> {
+  try {
+    const bytecode = await publicClient.getCode({
+      address: address as `0x${string}`
+    });
+    return bytecode !== undefined && bytecode.length > 0;
+  } catch (error) {
+    console.error(`Error checking contract status for ${address}:`, error);
+    return false;
+  }
+}
+
 // Initialize the MCP server with a name, version, and capabilities
 const server = new McpServer({
   name: "what-is-hot-monad",
@@ -34,32 +47,40 @@ server.tool(
       const currentBlock = await publicClient.getBlockNumber();
       const startBlock = currentBlock - BigInt(parseInt(blockRange));
       
-      // Get recent transactions
-      const contractInteractions = new Map<string, number>();
+      const allInteractions = new Map<string, number>();
       
+      // First pass: collect all interactions
       for (let i = startBlock; i <= currentBlock; i++) {
         const block = await publicClient.getBlock({ blockNumber: i, includeTransactions: true });
         if (block?.transactions) {
-          block.transactions.forEach(tx => {
+          for (const tx of block.transactions) {
             if (typeof tx === 'object' && 'to' in tx && tx.to) {
-              const count = contractInteractions.get(tx.to) || 0;
-              contractInteractions.set(tx.to, count + 1);
+              const count = allInteractions.get(tx.to) || 0;
+              allInteractions.set(tx.to, count + 1);
             }
-          });
+          }
         }
       }
 
-      // Sort contracts by interaction count
-      const sortedContracts = Array.from(contractInteractions.entries())
+      // Get top 5 addresses by interaction count
+      const topAddresses = Array.from(allInteractions.entries())
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 5); // Top 5 most active contracts
+        .slice(0, 5);
+
+      // Second pass: verify which of the top 5 are actually contracts
+      const contractInteractions = new Map<string, number>();
+      for (const [address, count] of topAddresses) {
+        if (await isContractAddress(address)) {
+          contractInteractions.set(address, count);
+        }
+      }
 
       return {
         content: [
           {
             type: "text",
             text: `Analysis of last ${blockRange} blocks (${startBlock} to ${currentBlock}):\n\n` +
-                  `Most active contracts:\n${sortedContracts.map(([address, count]) => 
+                  `Most active contracts:\n${Array.from(contractInteractions.entries()).map(([address, count]) => 
                     `- ${address} (${dappNames[address] || 'Unknown'}): ${count} interactions`
                   ).join('\n')}\n\n` +
                   `Total contracts analyzed: ${contractInteractions.size}`

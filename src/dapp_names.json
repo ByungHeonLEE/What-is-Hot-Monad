@@ -1,7 +1,9 @@
 {
-  "0xadf74e3e1b80eb6d55ec7348130f591ef3cd1884": "MonadSwap",
-  "0x8462c247356d7deb7e26160dbfab16b351eef242": "MonadBridge",
-  "0x97d28cb8c37189844ffd1aab6b194b8572282837": "MonadStaking",
-  "0xbdaf04a3950047f5f45b4085b2b6d4dc182a88d8": "MonadNFT",
-  "0x760afe86e5de5fa0ee542fc7b7b713e1c5425701": "MonadDAO"
+  "0x8462c247356d7deb7e26160dbfab16b351eef242": "Nad.Fun",
+  "0x760afe86e5de5fa0ee542fc7b7b713e1c5425701": "Wrapped Monad",
+  "0x9aBb18C1d4B995F360a33065590Ecd3C221B86f8": "IronMON",
+  "0xb2f82D0f38dc453D596Ad40A37799446Cc89274A": "aPriori",
+  "0xCa810D095e90Daae6e867c19DF6D9A8C56db2c89": "Swap",
+  "0x0F0BDEbF0F83cD1EE3974779Bcb7315f9808c714": "Molandak",
+  "0xe1d2439b75fb9746E7Bc6cB777Ae10AA7f7ef9c5": "Kintsu"
 } 
